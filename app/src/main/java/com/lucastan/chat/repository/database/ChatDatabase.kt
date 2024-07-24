@@ -1,9 +1,9 @@
-package com.example.chatsample.repository.database
+package com.lucastan.chat.repository.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.chatsample.model.Message
-import com.example.chatsample.model.User
+import com.lucastan.chat.model.Message
+import com.lucastan.chat.model.User
 
 @Database(entities = [User::class, Message::class], version = 1)
 abstract class ChatDatabase : RoomDatabase() {

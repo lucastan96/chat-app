@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="messageViewModel"
+            type="com.lucastan.chat.viewmodel.MessageViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

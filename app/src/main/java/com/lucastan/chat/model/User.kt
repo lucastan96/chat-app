@@ -1,4 +1,4 @@
-package com.example.chatsample.model
+package com.lucastan.chat.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

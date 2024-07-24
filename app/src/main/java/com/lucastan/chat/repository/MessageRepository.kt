@@ -1,7 +1,7 @@
-package com.example.chatsample.repository
+package com.lucastan.chat.repository
 
-import com.example.chatsample.model.Message
-import com.example.chatsample.repository.database.MessageDao
+import com.lucastan.chat.model.Message
+import com.lucastan.chat.repository.database.MessageDao
 
 class MessageRepository(private val dao: MessageDao) {
     companion object {

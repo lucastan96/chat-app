@@ -1,11 +1,11 @@
-package com.example.chatsample.repository.database
+package com.lucastan.chat.repository.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.chatsample.model.Message
+import com.lucastan.chat.model.Message
 
 @Dao
 interface MessageDao {

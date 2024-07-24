@@ -1,7 +1,7 @@
-package com.example.chatsample.repository
+package com.lucastan.chat.repository
 
-import com.example.chatsample.model.User
-import com.example.chatsample.repository.database.UserDao
+import com.lucastan.chat.model.User
+import com.lucastan.chat.repository.database.UserDao
 
 class UserRepository(private val dao: UserDao) {
     suspend fun insert(user: User) {
