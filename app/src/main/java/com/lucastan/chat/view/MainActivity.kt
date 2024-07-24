@@ -1,4 +1,4 @@
-package com.lucastan.chat
+package com.lucastan.chat.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
+import com.lucastan.chat.R
 import com.lucastan.chat.adapter.ChatViewAdapter
 import com.lucastan.chat.databinding.ActivityMainBinding
 import com.lucastan.chat.model.Message
