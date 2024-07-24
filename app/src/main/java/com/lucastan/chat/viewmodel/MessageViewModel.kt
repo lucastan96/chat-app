@@ -12,6 +12,14 @@ class MessageViewModel(private val messageRepository: MessageRepository) : ViewM
     val messages = messageRepository.messages
     val currentUserId = 1
 
+    init {
+        prepopulateMessages()
+    }
+
+    private fun prepopulateMessages() = viewModelScope.launch(Dispatchers.IO) {
+        messageRepository.prepopulateMessages()
+    }
+
     private fun sendMessage(message: Message) = viewModelScope.launch(Dispatchers.IO) {
         messageRepository.insert(message)
 
