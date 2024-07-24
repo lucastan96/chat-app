@@ -1,14 +1,14 @@
 package com.lucastan.chat
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
+import com.lucastan.chat.adapter.ChatViewAdapter
 import com.lucastan.chat.databinding.ActivityMainBinding
+import com.lucastan.chat.model.Message
 import com.lucastan.chat.repository.MessageRepository
 import com.lucastan.chat.repository.database.ChatDatabase
 import com.lucastan.chat.viewmodel.MessageViewModel
@@ -24,21 +24,16 @@ class MainActivity : AppCompatActivity() {
         // Set up data binding
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        enableEdgeToEdge()
-        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-
         // Set up toolbar
         setSupportActionBar(binding.toolbar)
 
+        // Build database
         val database = Room.databaseBuilder(
             applicationContext,
             ChatDatabase::class.java, "chat-database"
         ).build()
 
+        // Initialize DAO, repository & view model
         val messageDao = database.messageDao()
         val messageRepository = MessageRepository(messageDao)
         val factory = MessageViewModelFactory(messageRepository)
@@ -46,5 +41,26 @@ class MainActivity : AppCompatActivity() {
 
         binding.messageViewModel = viewModel
         binding.lifecycleOwner = this
+
+        // Set up messages list
+        initRecyclerView()
+    }
+
+    private fun initRecyclerView() {
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        displayMessagesList()
+    }
+
+    private fun displayMessagesList() {
+        viewModel.messages.observe(this) {
+            binding.recyclerView.adapter =
+                ChatViewAdapter(it, viewModel.currentUserId) { selectedItem: Message ->
+                    listItemClicked(selectedItem)
+                }
+        }
+    }
+
+    private fun listItemClicked(message: Message) {
+
     }
 }
