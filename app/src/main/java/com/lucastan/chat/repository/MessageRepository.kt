@@ -21,9 +21,8 @@ class MessageRepository(private val dao: MessageDao) {
     suspend fun prepopulateMessages() {
         if (dao.getMessagesCount() == 0) {
             val prepopulatedMessages = ArrayList<Message>()
-            prepopulatedMessages.add(Message(1, 2, "Hello Lucas!"))
-            prepopulatedMessages.add(Message(1, 1, "Hey man how have you been?"))
-            prepopulatedMessages.add(Message(1, 2, "Not too bad, how about you?"))
+            prepopulatedMessages.add(Message(1, 2, "Hello there!"))
+            prepopulatedMessages.add(Message(1, 1, "General Kenobi!"))
 
             dao.insertMessages(prepopulatedMessages)
         }
