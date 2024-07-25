@@ -19,16 +19,12 @@ class ChatViewModel(private val userRepository: UserRepository, private val mess
     val messageEditText = MutableLiveData<String>()
 
     init {
-        // These should be removed in a real-world scenario as data is prepopulated for demonstration purposes
-        prepopulateUsers()
-        prepopulateMessages()
+        // This should be removed in a real-world scenario as data is prepopulated for demonstration purposes
+        prepopulateData()
     }
 
-    private fun prepopulateUsers() = viewModelScope.launch(Dispatchers.IO) {
+    private fun prepopulateData() = viewModelScope.launch(Dispatchers.IO) {
         userRepository.prepopulateUsers()
-    }
-
-    private fun prepopulateMessages() = viewModelScope.launch(Dispatchers.IO) {
         messageRepository.prepopulateMessages()
     }
 
@@ -44,5 +40,9 @@ class ChatViewModel(private val userRepository: UserRepository, private val mess
                 }
             }
         }
+    }
+
+    fun swapUser() {
+
     }
 }

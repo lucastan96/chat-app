@@ -2,4 +2,5 @@
     <string name="app_name">Chat</string>
     <string name="message_edit_text">Type message…</string>
     <string name="send_btn">Send Message</string>
+    <string name="swap_btn">Swap User</string>
 </resources>

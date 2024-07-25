@@ -1,6 +1,8 @@
 package com.lucastan.chat.view
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +17,7 @@ import com.lucastan.chat.repository.UserRepository
 import com.lucastan.chat.repository.database.ChatDatabase
 import com.lucastan.chat.viewmodel.ChatViewModel
 import com.lucastan.chat.viewmodel.MessageViewModelFactory
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -75,5 +78,22 @@ class MainActivity : AppCompatActivity() {
 
     private fun listItemClicked(message: Message) {
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // Inflate swap user button in toolbar
+        menuInflater.inflate(R.menu.menu_toolbar, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_swap -> {
+                viewModel.swapUser()
+                return true
+            }
+
+            else -> return super.onOptionsItemSelected(item)
+        }
     }
 }

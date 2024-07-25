@@ -39,7 +39,7 @@ class UserRepository(context: Context, private val dao: UserDao) {
     }
 
     private fun getCurrentUserId() {
-        currentUserId = prefs.getInt(PREF_CURRENT_USER_ID, 0)
+        currentUserId = prefs.getInt(PREF_CURRENT_USER_ID, DEMO_CURRENT_USER_ID)
     }
 
     private fun switchCurrentUserId(userId: Int) {
