@@ -27,6 +27,7 @@ class ChatViewAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
 
+        // Incoming chat will display a left-sided bubble & outgoing will be right-sided
         val item = if (viewType == OUTGOING_CHAT) {
             layoutInflater.inflate(R.layout.item_chat_outgoing, parent, false)
         } else {
@@ -45,10 +46,12 @@ class ChatViewAdapter(
         )
     }
 
+    /** Check if time heading above a message is needed **/
     private fun isTimeHeadingNeeded(position: Int): Boolean {
         return position == 0 || messages[position].timestamp - messages[position - 1].timestamp > TIME_HEADING_PERIOD
     }
 
+    /** Check if smaller spacing between message is needed **/
     private fun isSmallerSpacingNeeded(position: Int): Boolean {
         return if (position > 0 && messages[position].userId == messages[position - 1].userId) {
             messages[position].timestamp - messages[position - 1].timestamp < SMALLER_SPACING_PERIOD
@@ -78,11 +81,13 @@ class ChatViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         val text: TextView = view.findViewById(R.id.text)
 
         if (isTimeHeadingNeeded) {
+            // Format time before assigning it to text view
             time.text = Time().formatTime(message.timestamp)
             time.visibility = View.VISIBLE
         }
 
         if (isTimeHeadingNeeded || isSmallerSpacingNeeded) {
+            // Adjust bubble top margin
             val params: ConstraintLayout.LayoutParams = bubble.layoutParams as ConstraintLayout.LayoutParams
             params.topMargin = Measurement().convertDpToPx(view.context, 4f)
             bubble.setLayoutParams(params)

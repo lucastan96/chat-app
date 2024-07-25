@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun displayMessagesList() {
+        // Listen for LiveData changes
         viewModel.messages.observe(this) {
             binding.recyclerView.adapter =
                 ChatViewAdapter(it, viewModel.currentUserId) { selectedItem: Message ->
