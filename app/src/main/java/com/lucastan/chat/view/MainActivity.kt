@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -47,16 +48,8 @@ class MainActivity : AppCompatActivity() {
         // Set up messages list
         initRecyclerView()
 
-        viewModel.inputMessage.observe(this) {
-            var backgroundDrawable = if (it.isNotEmpty()) {
-                R.drawable.bg_rectangle_pink
-            } else {
-                R.drawable.bg_rectangle_gray
-            }
-
-            binding.messageEditText.background = ContextCompat.getDrawable(this, backgroundDrawable)
-            binding.sendBtn.isEnabled = it.isNotEmpty()
-        }
+        // Set up input field & send button
+        setupInput()
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -110,6 +103,29 @@ class MainActivity : AppCompatActivity() {
         viewModel.messages.observe(this) {
             adapter.setData(it, viewModel.currentUserId)
             adapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun setupInput() {
+        viewModel.inputMessage.observe(this) {
+            var backgroundDrawable = if (it.isNotEmpty()) {
+                R.drawable.bg_rectangle_pink
+            } else {
+                R.drawable.bg_rectangle_gray
+            }
+
+            binding.messageEditText.background = ContextCompat.getDrawable(this, backgroundDrawable)
+            binding.sendBtn.isEnabled = it.isNotEmpty()
+        }
+
+        binding.messageEditText.setOnEditorActionListener { _, actionId, _ ->
+            when (actionId) {
+                EditorInfo.IME_ACTION_SEND -> {
+                    viewModel.sendMessage()
+                    true
+                }
+                else -> false
+            }
         }
     }
 

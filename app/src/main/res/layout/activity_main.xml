@@ -89,12 +89,14 @@
                 android:ems="10"
                 android:gravity="start|top"
                 android:hint="@string/message_edit_text"
+                android:imeOptions="actionSend"
                 android:importantForAutofill="no"
                 android:maxHeight="150dp"
                 android:paddingStart="16dp"
                 android:paddingTop="6dp"
                 android:paddingEnd="16dp"
                 android:paddingBottom="6dp"
+                android:singleLine="true"
                 android:text="@={messageViewModel.inputMessage}" />
 
             <Button
