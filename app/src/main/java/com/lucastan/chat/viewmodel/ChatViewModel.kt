@@ -7,6 +7,8 @@ import com.lucastan.chat.model.Message
 import com.lucastan.chat.repository.MessageRepository
 import com.lucastan.chat.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -17,6 +19,9 @@ class ChatViewModel(private val userRepository: UserRepository, private val mess
 
     val friendName = "Lucas"
     val messageEditText = MutableLiveData<String>()
+
+    private val _toggleRestart = MutableSharedFlow<Boolean>()
+    val toggleRestart: SharedFlow<Boolean> = _toggleRestart
 
     init {
         // This should be removed in a real-world scenario as data is prepopulated for demonstration purposes
@@ -42,7 +47,15 @@ class ChatViewModel(private val userRepository: UserRepository, private val mess
         }
     }
 
-    fun swapUser() {
+    fun swapUser() = viewModelScope.launch(Dispatchers.IO) {
+        if (currentUserId == 1) {
+            userRepository.switchCurrentUserId(2)
+        } else {
+            userRepository.switchCurrentUserId(1)
+        }
 
+        withContext(Dispatchers.Main) {
+            _toggleRestart.emit(true)
+        }
     }
 }

@@ -42,7 +42,7 @@ class UserRepository(context: Context, private val dao: UserDao) {
         currentUserId = prefs.getInt(PREF_CURRENT_USER_ID, DEMO_CURRENT_USER_ID)
     }
 
-    private fun switchCurrentUserId(userId: Int) {
+    suspend fun switchCurrentUserId(userId: Int) {
         prefs.edit().putInt(PREF_CURRENT_USER_ID, userId).apply()
     }
 }

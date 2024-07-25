@@ -1,11 +1,15 @@
 package com.lucastan.chat.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.lucastan.chat.R
@@ -17,6 +21,7 @@ import com.lucastan.chat.repository.UserRepository
 import com.lucastan.chat.repository.database.ChatDatabase
 import com.lucastan.chat.viewmodel.ChatViewModel
 import com.lucastan.chat.viewmodel.MessageViewModelFactory
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
@@ -55,6 +60,17 @@ class MainActivity : AppCompatActivity() {
 
         // Set up messages list
         initRecyclerView()
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.toggleRestart.collect {
+                    if (it) {
+                        startActivity(Intent(applicationContext, MainActivity::class.java))
+                        finish()
+                    }
+                }
+            }
+        }
     }
 
     private fun initRecyclerView() {
