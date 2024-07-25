@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -40,6 +41,36 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        // Set up database and view model
+        setupDatabase()
+
+        // Set up messages list
+        initRecyclerView()
+
+        viewModel.inputMessage.observe(this) {
+            var backgroundDrawable = if (it.isNotEmpty()) {
+                R.drawable.bg_rectangle_pink
+            } else {
+                R.drawable.bg_rectangle_gray
+            }
+
+            binding.messageEditText.background = ContextCompat.getDrawable(this, backgroundDrawable)
+            binding.sendBtn.isEnabled = it.isNotEmpty()
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.toggleRestart.collect {
+                    if (it) {
+                        startActivity(Intent(applicationContext, MainActivity::class.java))
+                        finish()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setupDatabase() {
         // Build database
         val database = Room.databaseBuilder(
             applicationContext,
@@ -61,20 +92,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.messageViewModel = viewModel
         binding.lifecycleOwner = this
-
-        // Set up messages list
-        initRecyclerView()
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.toggleRestart.collect {
-                    if (it) {
-                        startActivity(Intent(applicationContext, MainActivity::class.java))
-                        finish()
-                    }
-                }
-            }
-        }
     }
 
     private fun initRecyclerView() {

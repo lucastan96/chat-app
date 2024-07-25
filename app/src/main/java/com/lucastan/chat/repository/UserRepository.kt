@@ -5,7 +5,9 @@ import android.content.SharedPreferences
 import com.lucastan.chat.model.User
 import com.lucastan.chat.repository.database.UserDao
 import com.lucastan.chat.util.Constants.Companion.DEMO_CURRENT_FRIEND_ID
+import com.lucastan.chat.util.Constants.Companion.DEMO_CURRENT_FRIEND_NAME
 import com.lucastan.chat.util.Constants.Companion.DEMO_CURRENT_USER_ID
+import com.lucastan.chat.util.Constants.Companion.DEMO_CURRENT_USER_NAME
 import com.lucastan.chat.util.Constants.Companion.PREF_CURRENT_USER_ID
 import com.lucastan.chat.util.Constants.Companion.PREF_NAME
 
@@ -30,8 +32,8 @@ class UserRepository(context: Context, private val dao: UserDao) {
     suspend fun prepopulateUsers() {
         if (dao.getUsersCount() == 0) {
             val prepopulatedUsers = ArrayList<User>()
-            prepopulatedUsers.add(User(DEMO_CURRENT_USER_ID, "Lucas Tan"))
-            prepopulatedUsers.add(User(DEMO_CURRENT_FRIEND_ID, "Joe Bloggs"))
+            prepopulatedUsers.add(User(DEMO_CURRENT_USER_ID, DEMO_CURRENT_USER_NAME))
+            prepopulatedUsers.add(User(DEMO_CURRENT_FRIEND_ID, DEMO_CURRENT_FRIEND_NAME))
 
             switchCurrentUserId(DEMO_CURRENT_USER_ID)
 

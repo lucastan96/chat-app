@@ -31,8 +31,8 @@ class ChatRepository(context: Context, private val dao: ChatDao) {
     suspend fun prepopulateChats() {
         if (dao.getChatsCount() == 0) {
             val prepopulatedChats = ArrayList<Chat>()
-            prepopulatedChats.add(Chat(DEMO_CURRENT_USER_ID))
             prepopulatedChats.add(Chat(DEMO_CURRENT_FRIEND_ID))
+            prepopulatedChats.add(Chat(DEMO_CURRENT_USER_ID))
 
             dao.insertChats(prepopulatedChats)
 

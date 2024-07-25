@@ -26,7 +26,7 @@ class ChatViewModel(
 
     val friendName = MutableLiveData<String>()
 
-    val messageEditText = MutableLiveData<String>()
+    val inputMessage = MutableLiveData<String>()
 
     private val _toggleRestart = MutableSharedFlow<Boolean>()
     val toggleRestart: SharedFlow<Boolean> = _toggleRestart
@@ -55,14 +55,14 @@ class ChatViewModel(
     }
 
     fun sendMessage() {
-        val typedMessage = messageEditText.value!!
+        val typedMessage = inputMessage.value!!
 
         if (typedMessage.isNotEmpty()) {
             viewModelScope.launch(Dispatchers.IO) {
                 messageRepository.insert(Message(currentChatId, currentUserId, typedMessage))
 
                 withContext(Dispatchers.Main) {
-                    messageEditText.value = ""
+                    inputMessage.value = ""
                 }
             }
         }

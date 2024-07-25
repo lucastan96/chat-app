@@ -80,16 +80,22 @@
 
             <EditText
                 android:id="@+id/messageEditText"
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
                 android:layout_weight="4"
+                android:background="@drawable/bg_rectangle_gray"
                 android:ems="10"
                 android:gravity="start|top"
                 android:hint="@string/message_edit_text"
                 android:importantForAutofill="no"
-                android:inputType="textMultiLine"
-                android:text="@={messageViewModel.messageEditText}" />
+                android:maxHeight="150dp"
+                android:paddingStart="16dp"
+                android:paddingTop="6dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="6dp"
+                android:text="@={messageViewModel.inputMessage}" />
 
             <Button
                 android:id="@+id/sendBtn"
@@ -98,6 +104,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:contentDescription="@string/send_btn"
+                android:enabled="false"
+                android:gravity="center_horizontal|center_vertical"
                 android:onClick="@{()->messageViewModel.sendMessage()}"
                 app:icon="@drawable/ic_send" />
         </LinearLayout>

@@ -16,6 +16,8 @@ class Constants {
         // Demo IDs
         const val DEMO_CURRENT_CHAT_ID = 1
         const val DEMO_CURRENT_USER_ID = 1
+        const val DEMO_CURRENT_USER_NAME = "Lucas"
         const val DEMO_CURRENT_FRIEND_ID = 2
+        const val DEMO_CURRENT_FRIEND_NAME = "Tom"
     }
 }

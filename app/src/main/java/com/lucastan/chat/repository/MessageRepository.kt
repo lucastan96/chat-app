@@ -4,7 +4,6 @@ import com.lucastan.chat.model.Message
 import com.lucastan.chat.repository.database.MessageDao
 import com.lucastan.chat.util.Constants.Companion.DEMO_CURRENT_CHAT_ID
 import com.lucastan.chat.util.Constants.Companion.DEMO_CURRENT_FRIEND_ID
-import com.lucastan.chat.util.Constants.Companion.DEMO_CURRENT_USER_ID
 
 class MessageRepository(private val dao: MessageDao) {
     val messages = dao.getAllMessagesByChatId(DEMO_CURRENT_CHAT_ID)
@@ -24,14 +23,14 @@ class MessageRepository(private val dao: MessageDao) {
                 Message(
                     DEMO_CURRENT_CHAT_ID,
                     DEMO_CURRENT_FRIEND_ID,
-                    "Hello there!"
+                    "Hey Lucas!"
                 )
             )
             prepopulatedMessages.add(
                 Message(
                     DEMO_CURRENT_CHAT_ID,
-                    DEMO_CURRENT_USER_ID,
-                    "Hey, it's been a while! How are you?"
+                    DEMO_CURRENT_FRIEND_ID,
+                    "What should we do this weekend?"
                 )
             )
 
