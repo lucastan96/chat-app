@@ -5,20 +5,28 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lucastan.chat.model.Message
 import com.lucastan.chat.repository.MessageRepository
+import com.lucastan.chat.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MessageViewModel(private val messageRepository: MessageRepository) : ViewModel() {
+class MessageViewModel(private val userRepository: UserRepository, private val messageRepository: MessageRepository) : ViewModel() {
     val messages = messageRepository.messages
 
     val currentChatId = 1
     val currentUserId = 1
 
+    val friendName = "Lucas"
     val messageEditText = MutableLiveData<String>()
 
     init {
+        // These should be removed in a real-world scenario as data is prepopulated for demonstration purposes
+        prepopulateUsers()
         prepopulateMessages()
+    }
+
+    private fun prepopulateUsers() = viewModelScope.launch(Dispatchers.IO) {
+        userRepository.prepopulateUsers()
     }
 
     private fun prepopulateMessages() = viewModelScope.launch(Dispatchers.IO) {

@@ -8,4 +8,6 @@ data class User(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val name: String
-)
+) {
+    constructor(name: String) : this(0, name)
+}
