@@ -10,11 +10,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MessageViewModel(private val userRepository: UserRepository, private val messageRepository: MessageRepository) : ViewModel() {
-    val messages = messageRepository.messages
-
+class ChatViewModel(private val userRepository: UserRepository, private val messageRepository: MessageRepository) : ViewModel() {
+    val currentUserId = userRepository.currentUserId
     val currentChatId = 1
-    val currentUserId = 1
+    val messages = messageRepository.messages
 
     val friendName = "Lucas"
     val messageEditText = MutableLiveData<String>()

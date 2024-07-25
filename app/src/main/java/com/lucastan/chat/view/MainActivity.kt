@@ -13,12 +13,13 @@ import com.lucastan.chat.model.Message
 import com.lucastan.chat.repository.MessageRepository
 import com.lucastan.chat.repository.UserRepository
 import com.lucastan.chat.repository.database.ChatDatabase
-import com.lucastan.chat.viewmodel.MessageViewModel
+import com.lucastan.chat.viewmodel.ChatViewModel
 import com.lucastan.chat.viewmodel.MessageViewModelFactory
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var viewModel: MessageViewModel
+    private lateinit var viewModel: ChatViewModel
+    private lateinit var adapter: ChatViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,13 +39,13 @@ class MainActivity : AppCompatActivity() {
 
         // Initialize DAO, repository & view model
         val userDao = database.userDao()
-        val userRepository = UserRepository(userDao)
+        val userRepository = UserRepository(applicationContext, userDao)
 
         val messageDao = database.messageDao()
         val messageRepository = MessageRepository(messageDao)
 
         val factory = MessageViewModelFactory(userRepository, messageRepository)
-        viewModel = ViewModelProvider(this, factory)[MessageViewModel::class.java]
+        viewModel = ViewModelProvider(this, factory)[ChatViewModel::class.java]
 
         binding.messageViewModel = viewModel
         binding.lifecycleOwner = this
@@ -55,16 +56,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun initRecyclerView() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
+
+        adapter = ChatViewAdapter { selectedItem: Message ->
+            listItemClicked(selectedItem)
+        }
+        binding.recyclerView.adapter = adapter
+
         displayMessagesList()
     }
 
     private fun displayMessagesList() {
         // Listen for LiveData changes
         viewModel.messages.observe(this) {
-            binding.recyclerView.adapter =
-                ChatViewAdapter(it, viewModel.currentUserId) { selectedItem: Message ->
-                    listItemClicked(selectedItem)
-                }
+            adapter.setData(it, viewModel.currentUserId)
+            adapter.notifyDataSetChanged()
         }
     }
 

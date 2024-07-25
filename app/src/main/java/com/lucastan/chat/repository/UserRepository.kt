@@ -1,9 +1,23 @@
 package com.lucastan.chat.repository
 
+import android.content.Context
+import android.content.SharedPreferences
 import com.lucastan.chat.model.User
 import com.lucastan.chat.repository.database.UserDao
+import com.lucastan.chat.util.Constants.Companion.DEMO_CURRENT_USER_ID
+import com.lucastan.chat.util.Constants.Companion.PREF_CURRENT_USER_ID
+import com.lucastan.chat.util.Constants.Companion.PREF_NAME
 
-class UserRepository(private val dao: UserDao) {
+class UserRepository(context: Context, private val dao: UserDao) {
+    private val prefs: SharedPreferences =
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+
+    var currentUserId = 0
+
+    init {
+        getCurrentUserId()
+    }
+
     suspend fun get(userId: Int): User {
         return dao.getUserById(userId)
     }
@@ -19,6 +33,16 @@ class UserRepository(private val dao: UserDao) {
             prepopulatedUsers.add(User("Joe Bloggs"))
 
             dao.insertUsers(prepopulatedUsers)
+
+            switchCurrentUserId(DEMO_CURRENT_USER_ID)
         }
+    }
+
+    private fun getCurrentUserId() {
+        currentUserId = prefs.getInt(PREF_CURRENT_USER_ID, 0)
+    }
+
+    private fun switchCurrentUserId(userId: Int) {
+        prefs.edit().putInt(PREF_CURRENT_USER_ID, userId).apply()
     }
 }

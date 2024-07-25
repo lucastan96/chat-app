@@ -8,21 +8,18 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.lucastan.chat.R
 import com.lucastan.chat.model.Message
+import com.lucastan.chat.util.Constants.Companion.INCOMING_CHAT
+import com.lucastan.chat.util.Constants.Companion.OUTGOING_CHAT
+import com.lucastan.chat.util.Constants.Companion.SMALLER_SPACING_PERIOD
+import com.lucastan.chat.util.Constants.Companion.TIME_HEADING_PERIOD
 import com.lucastan.chat.util.Measurement
 import com.lucastan.chat.util.Time
 
 
-class ChatViewAdapter(
-    private val messages: List<Message>,
-    private val currentUserId: Int,
-    private val clickListener: (Message) -> Unit
-) : RecyclerView.Adapter<ChatViewHolder>() {
-    companion object {
-        const val INCOMING_CHAT = 1
-        const val OUTGOING_CHAT = 2
-        const val TIME_HEADING_PERIOD = 60 * 60 * 1000 // 1 hour
-        const val SMALLER_SPACING_PERIOD = 20 * 1000 // 20 seconds
-    }
+class ChatViewAdapter(private val clickListener: (Message) -> Unit) :
+    RecyclerView.Adapter<ChatViewHolder>() {
+    private val messages = ArrayList<Message>()
+    private var currentUserId = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -44,6 +41,12 @@ class ChatViewAdapter(
             isSmallerSpacingNeeded(position),
             clickListener
         )
+    }
+
+    fun setData(messages: List<Message>, currentUserId: Int) {
+        this.messages.clear()
+        this.messages.addAll(messages)
+        this.currentUserId = currentUserId
     }
 
     /** Check if time heading above a message is needed **/
@@ -88,7 +91,8 @@ class ChatViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
         if (isTimeHeadingNeeded || isSmallerSpacingNeeded) {
             // Adjust bubble top margin
-            val params: ConstraintLayout.LayoutParams = bubble.layoutParams as ConstraintLayout.LayoutParams
+            val params: ConstraintLayout.LayoutParams =
+                bubble.layoutParams as ConstraintLayout.LayoutParams
             params.topMargin = Measurement().convertDpToPx(view.context, 4f)
             bubble.setLayoutParams(params)
         }
