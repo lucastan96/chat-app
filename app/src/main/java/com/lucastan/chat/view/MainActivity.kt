@@ -103,6 +103,9 @@ class MainActivity : AppCompatActivity() {
         viewModel.messages.observe(this) {
             adapter.setData(it, viewModel.currentUserId)
             adapter.notifyDataSetChanged()
+
+            // Scroll to bottom of screen when sending message
+            binding.recyclerView.smoothScrollToPosition(it.size - 1)
         }
     }
 
@@ -124,6 +127,7 @@ class MainActivity : AppCompatActivity() {
                     viewModel.sendMessage()
                     true
                 }
+
                 else -> false
             }
         }
