@@ -16,6 +16,7 @@ import com.lucastan.chat.R
 import com.lucastan.chat.adapter.ChatViewAdapter
 import com.lucastan.chat.databinding.ActivityMainBinding
 import com.lucastan.chat.model.Message
+import com.lucastan.chat.repository.ChatRepository
 import com.lucastan.chat.repository.MessageRepository
 import com.lucastan.chat.repository.UserRepository
 import com.lucastan.chat.repository.database.ChatDatabase
@@ -49,10 +50,13 @@ class MainActivity : AppCompatActivity() {
         val userDao = database.userDao()
         val userRepository = UserRepository(applicationContext, userDao)
 
+        val chatDao = database.chatDao()
+        val chatRepository = ChatRepository(applicationContext, chatDao)
+
         val messageDao = database.messageDao()
         val messageRepository = MessageRepository(messageDao)
 
-        val factory = MessageViewModelFactory(userRepository, messageRepository)
+        val factory = MessageViewModelFactory(userRepository, chatRepository, messageRepository)
         viewModel = ViewModelProvider(this, factory)[ChatViewModel::class.java]
 
         binding.messageViewModel = viewModel

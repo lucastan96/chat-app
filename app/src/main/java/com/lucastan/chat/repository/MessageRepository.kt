@@ -2,13 +2,12 @@ package com.lucastan.chat.repository
 
 import com.lucastan.chat.model.Message
 import com.lucastan.chat.repository.database.MessageDao
+import com.lucastan.chat.util.Constants.Companion.DEMO_CURRENT_CHAT_ID
+import com.lucastan.chat.util.Constants.Companion.DEMO_CURRENT_FRIEND_ID
+import com.lucastan.chat.util.Constants.Companion.DEMO_CURRENT_USER_ID
 
 class MessageRepository(private val dao: MessageDao) {
-    companion object {
-        const val DEFAULT_CHAT_ID = 1
-    }
-
-    val messages = dao.getAllMessagesByChatId(DEFAULT_CHAT_ID)
+    val messages = dao.getAllMessagesByChatId(DEMO_CURRENT_CHAT_ID)
 
     suspend fun insert(message: Message) {
         dao.insertMessage(message)
@@ -21,8 +20,20 @@ class MessageRepository(private val dao: MessageDao) {
     suspend fun prepopulateMessages() {
         if (dao.getMessagesCount() == 0) {
             val prepopulatedMessages = ArrayList<Message>()
-            prepopulatedMessages.add(Message(1, 2, "Hello there!"))
-            prepopulatedMessages.add(Message(1, 1, "Hey, it's been a while! How are you?"))
+            prepopulatedMessages.add(
+                Message(
+                    DEMO_CURRENT_CHAT_ID,
+                    DEMO_CURRENT_FRIEND_ID,
+                    "Hello there!"
+                )
+            )
+            prepopulatedMessages.add(
+                Message(
+                    DEMO_CURRENT_CHAT_ID,
+                    DEMO_CURRENT_USER_ID,
+                    "Hey, it's been a while! How are you?"
+                )
+            )
 
             dao.insertMessages(prepopulatedMessages)
         }

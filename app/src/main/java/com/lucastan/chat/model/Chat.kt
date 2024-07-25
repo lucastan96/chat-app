@@ -4,8 +4,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class User(
+data class Chat(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val name: String
-)
+    val friendId: Int
+) {
+    constructor(friendId: Int) : this(0, friendId)
+}

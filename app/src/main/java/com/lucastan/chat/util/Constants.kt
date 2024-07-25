@@ -10,10 +10,12 @@ class Constants {
 
         // SharedPreferences
         const val PREF_NAME = "COM_LUCASTAN_CHAT"
+        const val PREF_CURRENT_CHAT_ID = "PREF_CURRENT_CHAT_ID"
         const val PREF_CURRENT_USER_ID = "PREF_CURRENT_USER_ID"
 
         // Demo IDs
-        const val DEMO_CURRENT_USER_ID = 1
         const val DEMO_CURRENT_CHAT_ID = 1
+        const val DEMO_CURRENT_USER_ID = 1
+        const val DEMO_CURRENT_FRIEND_ID = 2
     }
 }
